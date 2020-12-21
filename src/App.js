@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import {Component} from 'react'
+import CountdownTimer from './CountdownTimer'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export default class App extends Component {
+  constructor(props) {
+    super(props)
+    let interval = setInterval(this.timer,1000)
+    this.state = {
+      targetDate:new Date(2021,10,9).toString(),
+      currentDate:new Date().toString(),
+      intervalTracker: interval
+    }
+  }
+
+  timer = () => {
+    this.setState({currentDate:new Date().toString()})
+  }
+
+  incrementDebug = () => {
+    let date = new Date(this.state.targetDate)
+    date.setFullYear(date.getFullYear()+1)
+    this.setState({targetDate:date.toString()})
+  }
+
+  render() {
+    return <div>
+      <h1>Current date = {this.state.currentDate}</h1>
+      <CountdownTimer target={this.state.targetDate}/>
+      <button onClick={this.incrementDebug}>Test</button>
     </div>
-  );
+  }
 }
-
-export default App;
